@@ -1,4 +1,4 @@
-Open Concordance aims to be an easy to use concordance software and text and corpus analysis tool. It could be described as an Open Source alternative to Lawrence Anthony's Antconc.
+Open Concordance aims to be an easy to use concordance software and text and corpus analysis tool. It could be described as an Open Source alternative to Laurence Anthony's freeware concordance program Antconc (http://www.antlab.sci.waseda.ac.jp/software.html).
 
 Requirements
 
