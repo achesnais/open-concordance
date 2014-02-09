@@ -22,7 +22,7 @@ import os, time, threading # Time is used for testing purposes.
 
 class Corpus:
     def __init__(self, path=None, c_mode=False):
-        self.console_mode = c_mode
+        self.console_mode = c_mode #to disable any prints in gui mode
         self.texts = {}
         if path and os.path.exists(path):
             if os.path.isdir(path):
@@ -31,12 +31,14 @@ class Corpus:
                 self.load_text_file(path)
 
     def load_text_file(self, path):
+        """Loads a single file into corpus"""
         if not os.path.exists(path):
-            raise IOError
+            raise IOError #not quite sure this is the right exception to raise
         with open(path) as f:
             self.texts[path] = tokenize(f.read())
 
     def load_folder(self, path):
+        """Loads a folder into corpus."""
         if self.console_mode:
             print('Loading texts.')
         if not os.path.exists(path):
@@ -51,6 +53,7 @@ class Corpus:
         print('Loaded {} texts.'.format(len(pathlist)))
 
     def get_token_size(self):
+        """ Returns the total tokens in corpus."""
         size = 0
         for t in self.texts:
             size += len(self.texts[t])
@@ -59,7 +62,7 @@ class Corpus:
     def concordance(self, word, left=10, right=10, case=False, output='std'):
         """Aims to be your typical concordancer with KWIC.
         
-        TODO: left_text and right_text made be made into lists to allow for easier 
+        TODO: left_text and right_text could be made into lists to allow for easier 
         KWIC sorting.
         Also, max_right and max_left variables could be added to permit to oversee
         punctuation in span count, though apparently span count is done in characters,
@@ -112,6 +115,7 @@ class Corpus:
             return hits, results
     
     def quick_concordance(self, word, case=False):
+        """Simple concordance: takes a word and returns how many times it occurs"""
         if case:
             match_func = lambda w, t: w == t
         else:
@@ -125,10 +129,18 @@ class Corpus:
         return hits
     
     def word_list(self, case=False, punc=False, num=False):
+        """TODO
+        
+        Prints a list of the words (or, rather, the tokens) in the corpus, 
+        along with their raw and relative occurences."""
         for t in self.texts:
             pass
     
-    def get_data(self):
+    def get_data(self): # for now avoid using in GUI mode.
+        """TODO : gui mode
+        
+        Computes the lengths of the smallest and largest text, and
+        average text length."""
         min_length = None
         max_length = None
         length_sum = 0
@@ -148,6 +160,9 @@ class Corpus:
         print("Average length is {:2} tokens".format(length_sum/len(self.texts)))
 
 def tokenize(string):
+    """A simple tokenizer
+    
+    A token is any sequence of alphanumeric characters, or a sign of punctuation"""
     tokens = []
     word = ''
     for char in string:
@@ -163,10 +178,11 @@ def tokenize(string):
                 tokens.append(word)
                 word = ''
     return tokens
-    
-
 
 def main():
+    """TODO:
+    Write a simple program which allows one to choose between and use the
+    different corpus functions."""
     c = Corpus('txts')
     c.get_data()
 
