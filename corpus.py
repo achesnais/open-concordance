@@ -21,7 +21,8 @@
 import os, time, threading # Time is used for testing purposes.
 
 class Corpus:
-    def __init__(self, path=None):
+    def __init__(self, path=None, c_mode=False):
+        self.console_mode = c_mode
         self.texts = {}
         if path and os.path.exists(path):
             if os.path.isdir(path):
@@ -36,7 +37,8 @@ class Corpus:
             self.texts[path] = tokenize(f.read())
 
     def load_folder(self, path):
-        print('Loading texts.')
+        if self.console_mode:
+            print('Loading texts.')
         if not os.path.exists(path):
             raise IOError
         filelist = os.listdir(path)
