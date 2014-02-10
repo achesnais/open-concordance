@@ -6,8 +6,12 @@ Open Concordance is written in Python 3. If you do not already have it, you can 
 
 Running the program
 
-The code is obviously at an early stage, so some things will have to be hardcoded by you if you wish to make it work. First, the folder containing your corpus should be in the same folder as the program. By default the program will look for a folder named "txts" and load all .txt files found in it. 
-Please make sure your folder only contains .txt files.
+There are two ways to run the program:
+
+If you have no knowledge of Python, you can use the gui (run gui.py) which is still under construction but works for basic, quick concordance. Simply use File > Open Directory to import your corpus (make sure that you are inside your corpus directory before clicking ok, not the directory containing it!). Then simply enter the word you are looking for and press the search button.
+
+If you are not afraid to read some code and use the console, you can use corpus.py as a module or run it. If you choose the latter, since the code is at an early stage, some things will have to be hardcoded by you if you wish to make it work. By default and when running the main function of corpus.py, the folder containing your corpus should be named "txts" and be in the same folder as corpus.py. If you run it as a module however, you can simply supply the path to the constructor's "path" argument.
+Please make sure your folder only contains .txt files, as the program will raise an exception (an error) if the folder contains anything it can't process. 
 
 Features
 
@@ -16,7 +20,8 @@ For now, the main part of the program, contained in corpus.py, allows you to:
 -- Perform a quick concordance to get the number of hits for a word
 -- Produce a concordance output for a word, in a .txt file named {word}-concordance-results.txt found in the same directory the program is run from.
 
+The GUI only supports quick concordance (it will only return the number of hits).
+
 The other files are:
 filetools.py: I used it for my own corpus research project, mostly formating.
 generator.py: creates a corpus for testing purposes.
-gui.py: a project for a gui written in Tkinter.
