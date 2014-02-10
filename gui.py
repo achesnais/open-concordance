@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 """
-    The Gui for Open Concordance. I'm still learning Tkinter...
+    A Gui for Open Concordance.
     Copyright (C) 2014  Antoine Chesnais
 
     This program is free software: you can redistribute it and/or modify
@@ -18,13 +18,52 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from tkinter import *
-from tkinter import ttk
-root = Tk()
-root.option_add("*tearOff", False)
-main_window = ttk.Frame(root).grid(column=0, row=0)
-menu_bar = Menu(main_window)
-menu_file = Menu(menu_bar)
-menu_bar.add_cascade(menu=menu_file, label='File')
-ttk.Label(main_window, text="Hello everyone!").grid(column=1, row=1)
-root.mainloop()
+import tkinter as tk
+from tkinter import ttk, filedialog
+import corpus
+
+class Application(tk.Frame):
+    def __init__(self, master=None):
+        tk.Frame.__init__(self, master)
+        self.grid()
+        self.createWidgets()
+        self.corpus = corpus.Corpus()
+
+    def createWidgets(self):
+        
+        #Menus
+        #File
+        self.file_button = tk.Menubutton(self, text="File", anchor=tk.W)
+        self.file_button.grid(column=0, row=0)
+        self.file_button.menu = tk.Menu(self.file_button, tearoff=0)
+        self.file_button["menu"] = self.file_button.menu
+        self.file_button.menu.add_command(label="Open Folder", command=self.corpus_load_folder)
+        
+        #Main Window
+        self.search_expression = tk.StringVar()
+        self.hits = tk.StringVar()
+        self.hits.set('No search')
+        ttk.Label(self, text="Concordance search:").grid(column=0, row=1, columnspan=2)
+        ttk.Entry(self, textvariable=self.search_expression).grid(column=0, row=1)
+        ttk.Button(self, text="Start search", command=self.concordance).grid(column=1, row=1)
+        ttk.Label(self, text="Number of hits:").grid(column=0, row=2)
+        ttk.Label(self, textvariable=self.hits).grid(column=1, row=2)
+        
+    
+    def corpus_load_folder(self):
+        print("Loaded")
+        path = tk.filedialog.askdirectory()
+        self.corpus.load_folder(path)
+    
+    def concordance(self):
+        expr = self.search_expression.get()
+        hits = self.corpus.quick_concordance(expr)
+        self.hits.set(hits)
+
+def main():
+    openconc = Application()
+    openconc.master.title("Open Concordance")
+    openconc.mainloop()
+
+if __name__ == "__main__":
+    main()
