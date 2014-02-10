@@ -14,7 +14,7 @@ Features
 For now, the main part of the program, contained in corpus.py, allows you to:
 -- Get basic corpus data: minimum text length (in tokens), maximum text length, average text --length
 -- Perform a quick concordance to get the number of hits for a word
--- Produce a concordance output for a word, in a .txt file named {word}-concordance-results.txt
+-- Produce a concordance output for a word, in a .txt file named {word}-concordance-results.txt found in the same directory the program is run from.
 
 The other files are:
 filetools.py: I used it for my own corpus research project, mostly formating.
