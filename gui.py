@@ -32,8 +32,11 @@ class Application(tk.Frame):
     def createWidgets(self):
         
         #Menus
-        #File
-        self.file_button = tk.Menubutton(self, text="File", anchor=tk.W)
+        self.menu_bar = tk.Frame(self)
+        self.menu_bar.grid(row=0, sticky=tk.W)
+        
+            #File
+        self.file_button = tk.Menubutton(self.menu_bar, text="File")
         self.file_button.grid(column=0, row=0)
         self.file_button.menu = tk.Menu(self.file_button, tearoff=0)
         self.file_button["menu"] = self.file_button.menu
@@ -43,16 +46,16 @@ class Application(tk.Frame):
         self.search_expression = tk.StringVar()
         self.hits = tk.StringVar()
         self.hits.set('No search')
-        ttk.Label(self, text="Concordance search:").grid(column=0, row=1, columnspan=2)
-        ttk.Entry(self, textvariable=self.search_expression).grid(column=0, row=1)
-        ttk.Button(self, text="Start search", command=self.concordance).grid(column=1, row=1)
-        ttk.Label(self, text="Number of hits:").grid(column=0, row=2)
-        ttk.Label(self, textvariable=self.hits).grid(column=1, row=2)
+        ttk.Label(self, text="Concordance search:").grid(column=0, row=1)
+        ttk.Entry(self, textvariable=self.search_expression).grid(column=0, row=2)
+        ttk.Button(self, text="Start search", command=self.concordance).grid(column=1, row=2)
+        ttk.Label(self, text="Number of hits:").grid(column=0, row=3)
+        ttk.Label(self, textvariable=self.hits).grid(column=1, row=3)
         
     
     def corpus_load_folder(self):
         print("Loaded")
-        path = tk.filedialog.askdirectory()
+        path = filedialog.askdirectory()
         self.corpus.load_folder(path)
     
     def concordance(self):

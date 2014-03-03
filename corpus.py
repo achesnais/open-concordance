@@ -21,8 +21,7 @@
 import os, time, threading # Time is used for testing purposes.
 
 class Corpus:
-    def __init__(self, path=None, c_mode=False):
-        self.console_mode = c_mode #to disable any prints in gui mode
+    def __init__(self, path=None):
         self.texts = {}
         if path and os.path.exists(path):
             if os.path.isdir(path):
@@ -39,8 +38,6 @@ class Corpus:
 
     def load_folder(self, path):
         """Loads a folder into corpus."""
-        if self.console_mode:
-            print('Loading texts.')
         if not os.path.exists(path):
             raise IOError
         filelist = os.listdir(path)
@@ -50,7 +47,6 @@ class Corpus:
         for p in pathlist:
             with open(p) as f:
                 self.texts[p] = tokenize(f.read())
-        print('Loaded {} texts.'.format(len(pathlist)))
 
     def get_token_size(self):
         """ Returns the total tokens in corpus."""
@@ -131,7 +127,7 @@ class Corpus:
     def word_list(self, case=False, punc=False, num=False):
         """TODO
         
-        Prints a list of the words (or, rather, the tokens) in the corpus, 
+        Return a list of the words (or, rather, the tokens) in the corpus, 
         along with their raw and relative occurences."""
         for t in self.texts:
             pass
@@ -155,9 +151,7 @@ class Corpus:
             else:
                 max_length = length
             length_sum += length
-        print("Smallest text is {} tokens long.".format(min_length))
-        print("Longest text is {} tokens long.".format(max_length))
-        print("Average length is {:2} tokens".format(length_sum/len(self.texts)))
+        return min_length, max_length, length_sum
 
 def tokenize(string):
     """A simple tokenizer
