@@ -43,27 +43,31 @@ class Application(tk.Frame):
         self.file_button["menu"] = self.file_button.menu
         self.file_button.menu.add_command(label="Open Folder", command=self.corpus_load_folder)
         
-        #Main Window
-        self.main_window = tk.Frame(self)
-        self.main_window.grid(column=0, row=1)
-        
-            #Command bar
-        self.search_expression = tk.StringVar()
-        self.hits = tk.StringVar()
-        self.hits.set('No search')
-        ttk.Label(self.main_window, text="Concordance search:").grid(column=1, row=1)
-        ttk.Entry(self.main_window, textvariable=self.search_expression).grid(column=1, row=2)
-        ttk.Button(self.main_window, text="Start search", command=self.concordance).grid(column=2, row=2)
-        ttk.Label(self.main_window, text="Number of hits:").grid(column=1, row=3)
-        ttk.Label(self.main_window, textvariable=self.hits).grid(column=2, row=3)
-        
-            #Output area
+        #Output area
+        self.output_window = tk.Frame(self)
+        self.output_window.grid(column=0, row=1)
+            #Text area
         self.concordance_output = tk.StringVar()
-        self.conc_output_area = tk.Text(self.main_window, wrap=tk.NONE)
+        self.conc_output_area = tk.Text(self.output_window, wrap=tk.NONE)
         self.conc_output_area.grid(column=0, row=0, columnspan=4)
         self.conc_output_area.insert(tk.END, "Output here!")
         self.conc_output_area.configure(state="disabled")
+            #Vertical scrollbar
+        self.output_window.xscrollbar = tk.Scrollbar(self.output_window, orient=tk.HORIZONTAL, command=self.conc_output_area.xview)
+        self.output_window.xscrollbar.grid(column=0, row=2, sticky=tk.W+tk.E)
+        self.conc_output_area["xscrollcommand"] = self.output_window.xscrollbar.set
         
+        #Command bar
+        self.command_window = tk.Frame(self)
+        self.command_window.grid(column=0, row=2)
+        self.search_expression = tk.StringVar()
+        self.hits = tk.StringVar()
+        self.hits.set('No search')
+        ttk.Label(self.command_window, text="Concordance search:").grid(column=1, row=1)
+        ttk.Entry(self.command_window, textvariable=self.search_expression).grid(column=1, row=2)
+        ttk.Button(self.command_window, text="Start search", command=self.concordance).grid(column=2, row=2)
+        ttk.Label(self.command_window, text="Number of hits:").grid(column=1, row=3)
+        ttk.Label(self.command_window, textvariable=self.hits).grid(column=2, row=3)
             
         
     
