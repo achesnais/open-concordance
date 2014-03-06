@@ -79,10 +79,14 @@ class Application(tk.Frame):
         self.hits.set(hits)
         self.clear_text_area()
         self.conc_output_area.configure(state="normal")
-        for item in results:
-            self.conc_output_area.insert(tk.END, item[1])
-            self.conc_output_area.insert(tk.END, "  "+item[0]+"  ")
-            self.conc_output_area.insert(tk.END, item[2]+"\n")
+        l_width = r_width = p_width = 0
+        w_width = len(expr)
+        for r in results:
+            l_width = max(l_width, len(r[1]))
+            r_width = max(r_width, len(r[2]))
+            p_width = max(p_width, len(r[3]))
+        for r in results:
+            self.conc_output_area.insert(tk.END, "{0:>{lw}} <{1:^{ww}}> {2:<{rw}}    file ({3:<{pw}}).\n".format(r[1], r[0], r[2], r[3], lw=l_width, rw=r_width, ww=w_width, pw=p_width))
         self.conc_output_area.configure(state="disabled")
         print("Concordance output for {}({} hits) produced in {} seconds.".format(expr, hits, time.time() - t))
     
