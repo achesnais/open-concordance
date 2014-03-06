@@ -18,6 +18,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+import time
 import tkinter as tk
 from tkinter import ttk, filedialog
 import corpus
@@ -43,25 +44,52 @@ class Application(tk.Frame):
         self.file_button.menu.add_command(label="Open Folder", command=self.corpus_load_folder)
         
         #Main Window
+        self.main_window = tk.Frame(self)
+        self.main_window.grid(column=0, row=1)
+        
+            #Command bar
         self.search_expression = tk.StringVar()
         self.hits = tk.StringVar()
         self.hits.set('No search')
-        ttk.Label(self, text="Concordance search:").grid(column=0, row=1)
-        ttk.Entry(self, textvariable=self.search_expression).grid(column=0, row=2)
-        ttk.Button(self, text="Start search", command=self.concordance).grid(column=1, row=2)
-        ttk.Label(self, text="Number of hits:").grid(column=0, row=3)
-        ttk.Label(self, textvariable=self.hits).grid(column=1, row=3)
+        ttk.Label(self.main_window, text="Concordance search:").grid(column=1, row=1)
+        ttk.Entry(self.main_window, textvariable=self.search_expression).grid(column=1, row=2)
+        ttk.Button(self.main_window, text="Start search", command=self.concordance).grid(column=2, row=2)
+        ttk.Label(self.main_window, text="Number of hits:").grid(column=1, row=3)
+        ttk.Label(self.main_window, textvariable=self.hits).grid(column=2, row=3)
+        
+            #Output area
+        self.concordance_output = tk.StringVar()
+        self.conc_output_area = tk.Text(self.main_window, wrap=tk.NONE)
+        self.conc_output_area.grid(column=0, row=0, columnspan=4)
+        self.conc_output_area.insert(tk.END, "Output here!")
+        self.conc_output_area.configure(state="disabled")
+        
+            
         
     
     def corpus_load_folder(self):
-        print("Loaded")
         path = filedialog.askdirectory()
         self.corpus.load_folder(path)
     
     def concordance(self):
+        t = time.time()
         expr = self.search_expression.get()
         hits = self.corpus.quick_concordance(expr)
+        hits, results = self.corpus.concordance(expr, output="std")
         self.hits.set(hits)
+        self.clear_text_area()
+        self.conc_output_area.configure(state="normal")
+        for item in results:
+            self.conc_output_area.insert(tk.END, item[1])
+            self.conc_output_area.insert(tk.END, "  "+item[0]+"  ")
+            self.conc_output_area.insert(tk.END, item[2]+"\n")
+        self.conc_output_area.configure(state="disabled")
+        print("Concordance output for {}({} hits) produced in {} seconds.".format(expr, hits, time.time() - t))
+    
+    def clear_text_area(self):
+        self.conc_output_area.configure(state="normal")
+        self.conc_output_area.delete(1.0, tk.END)
+        self.conc_output_area.configure(state="disabled")
 
 def main():
     openconc = Application()
