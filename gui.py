@@ -46,6 +46,7 @@ class Application(tk.Frame):
         #Output area
         self.output_window = tk.Frame(self)
         self.output_window.grid(column=0, row=1)
+        self.output_window.columnconfigure(0, weight=1)
             #Text area
         self.concordance_output = tk.StringVar()
         self.conc_output_area = tk.Text(self.output_window, wrap=tk.NONE)
