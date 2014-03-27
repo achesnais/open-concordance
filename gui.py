@@ -93,7 +93,7 @@ class Application(tk.Frame):
         for r in results:
             self.conc_output_area.insert(tk.END, "{0:>{lw}} <{1:^{ww}}> {2:<{rw}}    file ({3:<{pw}}).\n".format(r[1], r[0], r[2], r[3], lw=l_width, rw=r_width, ww=w_width, pw=p_width))
         self.conc_output_area.configure(state="disabled")
-        print("Concordance output for {}({} hits) produced in {} seconds.".format(expr, hits, time.time() - t))
+        print("Concordance output for '{}'({} hits) produced in {} seconds.".format(expr, hits, time.time() - t))
     
     def clear_text_area(self):
         self.conc_output_area.configure(state="normal")
