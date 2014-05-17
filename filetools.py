@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 
 """
-    Tools to manipulate corpus files. Written for my current linguistics
-    research project.
+    Tools to manipulate corpus files. Written for my applied linguistics
+    research project to help manipulate corpus files, and make them more
+    "Antconc-friendly".
     
     Copyright (C) 2014  Antoine Chesnais
 
@@ -22,12 +23,13 @@
 
 import os
 
-CORPUS_PATH = './txts'
-LIMIT = 'volume'
+CORPUS_PATH = './txts' #Change according to needs
+LIMIT = 'volume' #The first word of the last line of the header of eache article of my corpus
 
 def comment_out_text_info(limit_word=LIMIT):
     """Comments out info which should not be taken into account
-    by AntConc."""
+    by AntConc. Except it seems that Antconc does not understand this
+    concept."""
     path_list = generate_path_list(CORPUS_PATH)
     for p in path_list:
         buff = []
@@ -47,6 +49,7 @@ def comment_out_text_info(limit_word=LIMIT):
                 f.write(i)
                 
 def remove_sharp():
+    """ Reverses comment_out_text_info() """
     path_list = generate_path_list(CORPUS_PATH)
     for p in path_list:
         buff = []
@@ -83,6 +86,8 @@ def check_double_titles(path_list):
         print(i)
 
 def remove_figures():
+    """ A tool to quickly hunt for the captions of the various illustrations
+        in the articles of my corpus."""
     for p in generate_path_list('processed_txts'):
         running = True
         done = False
