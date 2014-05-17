@@ -60,7 +60,7 @@ class Corpus:
         
         TODO: left_text and right_text could be made into lists to allow for easier 
         KWIC sorting.
-        Also, max_right and max_left variables could be added to permit to oversee
+        Also, max_right and max_left variables could be added to permit to ignore
         punctuation in span count, though apparently span count is done in characters,
         not words or tokens (as seen in AntConc)
         Obviously, implement search of multiple groups, and when that's functional, 
@@ -174,9 +174,6 @@ def tokenize(string):
     return tokens
 
 def main():
-    """TODO:
-    Write a simple program which allows one to choose between and use the
-    different corpus functions."""
     c = Corpus('txts')
     c.get_data()
 
